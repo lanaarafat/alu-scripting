@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-"""Queries the Reddit API"""
+"""quaries the reddit api"""
 
 import json
 import operator
@@ -8,9 +8,9 @@ import requests
 
 
 def count_words(subreddit, word_list, after=None):
-    """keyword count"""
+    "counting part"""
 
-     if len(word_list) == 0:
+    if len(word_list) == 0:
         print(None)
         return
     url = "https://www.reddit.com/r/{}/hot.json".format(subreddit)
