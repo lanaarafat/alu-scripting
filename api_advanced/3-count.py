@@ -8,9 +8,9 @@ import requests
 
 
 def count_words(subreddit, word_list, after=None):
-    """here is the count part"""
+    """keyword count"""
 
-    if len(word_list) == 0:
+     if len(word_list) == 0:
         print(None)
         return
     url = "https://www.reddit.com/r/{}/hot.json".format(subreddit)
@@ -68,5 +68,5 @@ def count_words(subreddit, word_list, after=None):
         word_list = sorted_list
         for i in sorted_list:
             if i["count"] > 0:
-                print("{}: {}".format(i["key"], i["count"] * i["times"]))
+                print("{}: {}".format(i["key"], i["count"]))
         return
