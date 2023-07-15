@@ -8,26 +8,18 @@ import requests
 def recurse(subreddit, hot_list=[], after=None):
     url = 'https://www.reddit.com/r/{}/hot.json'.format(subreddit)
     headers = {'User-Agent': 'Mozilla/5.0'}
-
-    params = {'after': after} if after else {}
-
-    response = requests.get(url, headers=headers, params=params)
-
-    if response.status_code == 200:
-        data = response.json()
-
-        for post in data['data']['children']:
-            title = post['data']['title']
-            hot_list.append(title)
-
-        # set after to the last post of the previous result.
-        after = data['data']['after']
-
-        # call the function with the updated after i.e recursion
-        if after:
-            recurse(subreddit, hot_list, after)
-
-    else:
+    params = {}
+    if after:
+        params['after'] = after
+    result = requests.get(url, headers=headers,
+                          params=params, allow_redirects=False)
+    if result.status_code != 200:
         return None
-
-    return hot_list
+    body = result.json()
+    children = body['data']['children']
+    for child in children:
+        hot_list.append(child['data']['title'])
+    if not body['data']['after']:
+        return hot_list
+    else:
+        return recurse(subreddit, hot_list, after=body['data']['after'])
